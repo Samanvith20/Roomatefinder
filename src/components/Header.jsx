@@ -37,7 +37,8 @@ function Header() {
                             Home
                         </li>
                         <li
-                            className={`cursor-pointer py-3 border-b-[3px] border-transparent ${(pathMatchRoute("/login") || pathMatchRoute("/profile")) && "text-primary border-b-accent"}`}
+                            className={`cursor-pointer py-3 border-b-[3px] border-transparent 
+                                ${(pathMatchRoute("/login") || pathMatchRoute("/profile")) && "text-primary border-b-accent"}`}
                             onClick={() => navigate("/profile")}
                         >
                             {pageState}
