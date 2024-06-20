@@ -49,21 +49,10 @@ const Profile = () => {
 
   useEffect(() => {
     async function fetchUserPosts() {
-      const postRef = collection(db, 'posts');
-      const userPostsQuery = query(
-        postRef,
-        where('userRef', '==', auth.currentUser.uid),
-        orderBy('timestamp', 'desc')
-      );
-      const userPostsSnapshot = await getDocs(userPostsQuery);
+      
+      setLoading(false)
 
-      let posts = [];
-      userPostsSnapshot.forEach((doc) => {
-        return posts.push({ data: doc.data(), id: doc.id });
-      });
-
-      setPosts(posts);
-      setLoading(false);
+      
     }
     fetchUserPosts();
   }, [auth.currentUser.uid]);
@@ -118,12 +107,13 @@ const Profile = () => {
 
                 </div>
             </form>
-            <button type="submit" className='mt-6 w-full bg-primary p-4 text-light text-xl rounded-xl hover:bg-accent font-semibold shadow-md shadow-black
-            transition duration-150 ease-in-out hover:shadow-secondary'>
-                <Link to="/create-post">
-                    Create Post to find a Roommate
-                </Link>
-            </button>
+            <Link to="/create-post">
+    <button type="button" className='mt-6 w-full bg-primary p-4 text-light text-xl rounded-xl hover:bg-accent font-semibold shadow-md shadow-black
+        transition duration-150 ease-in-out hover:shadow-secondary'>
+        Create Post to find a Roommate
+    </button>
+</Link>
+
 
         </div>
 

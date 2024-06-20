@@ -6,6 +6,7 @@ import Privateroute from './components/Privateroute';
 import Profile from './pages/Profile';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CreatePost from './pages/CreatePost';
 
 const AppLayout = () => (
   <>
@@ -20,12 +21,16 @@ const appRouter = createBrowserRouter([
     element: <AppLayout />,
     children: [
       {
-        path: 'login',
+        path: '/login',
         element: <Authentication />,
       },
       {
-        path: 'profile',
+        path: '/profile',
         element: <Privateroute element={<Profile />} />,
+      },
+      {
+        path:'/create-post',
+        element:<Privateroute element={<CreatePost/>}/>
       },
     ],
   },
