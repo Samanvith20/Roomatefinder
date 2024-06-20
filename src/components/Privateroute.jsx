@@ -2,7 +2,8 @@ import React from 'react'
 import { useAuthStatus } from '../hooks/useAuthstatus'
 import Spinner from './Spinner';
 import { Navigate, } from 'react-router';
-import Profile from './Profile';
+import Profile from '../pages/Profile';
+
 
 const Privateroute = () => {
     const{loggedIn,checkingStatus}=useAuthStatus()
