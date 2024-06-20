@@ -6,7 +6,8 @@ import { updateProfile } from 'firebase/auth';
 import { collection, deleteDoc, doc, getDocs, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import Spinner from '../components/Spinner';
 import { Link } from 'react-router-dom';
-import Post from './Post';
+import Post from '../components/Post';
+
 
 const Profile = () => {
   const [changeDetails, setChangeDetails] = useState(false);
