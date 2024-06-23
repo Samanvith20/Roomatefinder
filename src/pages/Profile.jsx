@@ -51,11 +51,18 @@ const Profile = () => {
   useEffect(() => {
     async function fetchUserPosts() {
       
-      setLoading(false)
-
-      
-    }
-    fetchUserPosts();
+      const postRef = collection(db, 'posts');
+            const userPostsQuery = query(postRef, where("userRef", "==", auth.currentUser.uid),
+                orderBy("timestamp", "desc"));
+            const userPostsSnapshot = await getDocs(userPostsQuery);
+            let posts = [];
+            userPostsSnapshot.forEach((doc) => {
+                return posts.push({ data: doc.data(), id: doc.id });
+            });
+            setPosts(posts);
+            setLoading(false);
+        }
+        fetchUserPosts();
   }, [auth.currentUser.uid]);
 
   async function onDelete(postID) {

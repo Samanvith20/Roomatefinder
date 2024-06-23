@@ -70,9 +70,8 @@ const CreatePost = () => {
             return;
         }
     
-        let geolocation = {};  // Object to store geolocation data
-        let location;  // Variable to store location validity
-    
+        let geolocation = {};  
+        let location;  
         if (geoLocationEnabled) {
             // Fetch geolocation data using the Google Maps API
             const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API}`);
