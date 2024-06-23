@@ -1,4 +1,4 @@
-import { collection, getDoc, query, where } from 'firebase/firestore'
+import { collection, getDoc, getDocs, orderBy, query, where } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { auth, db } from '../firebase'
 import Spinner from '../components/Spinner'
@@ -13,8 +13,8 @@ const Home = () => {
       async function fetchUserPosts(){
           try {
             const postRef= collection(db,"posts")
-            const userpostQuery=query(postRef,where("userref" ,"=" ,auth.currentUser.uid))
-               const userPosts=await getDoc(userpostQuery)
+            const q = query(postRef, orderBy('timestamp', 'desc'));
+               const userPosts=await getDocs(q)
                let posts=[]
                userPosts.forEach((doc) => {
                 return posts.push({ data: doc.data(), id: doc.id });

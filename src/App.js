@@ -7,6 +7,11 @@ import Profile from './pages/Profile';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreatePost from './pages/CreatePost';
+import EditPost from './pages/Editpost';
+import Home from './pages/Home';
+
+
+import Post from './pages/Post';
 
 const AppLayout = () => (
   <>
@@ -21,16 +26,29 @@ const appRouter = createBrowserRouter([
     element: <AppLayout />,
     children: [
       {
+        path: '/',
+        element: <Home />,
+      },
+      {
         path: '/login',
         element: <Authentication />,
       },
+      
       {
-        path: '/profile',
+        path: 'post/:postId',
+        element: <Post />,
+      },
+      {
+        path: 'profile',
         element: <Privateroute element={<Profile />} />,
       },
       {
-        path:'/create-post',
-        element:<Privateroute element={<CreatePost/>}/>
+        path: 'create-post',
+        element: <Privateroute element={<CreatePost />} />,
+      },
+      {
+        path: 'edit-post/:postId',
+        element: <Privateroute element={<EditPost />} />,
       },
     ],
   },
