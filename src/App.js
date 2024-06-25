@@ -1,3 +1,4 @@
+import React from 'react';
 import { Outlet, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
 import Header from './components/Header';
@@ -9,8 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import CreatePost from './pages/CreatePost';
 import EditPost from './pages/Editpost';
 import Home from './pages/Home';
-
-
 import Post from './pages/Post';
 
 const AppLayout = () => (
@@ -33,22 +32,27 @@ const appRouter = createBrowserRouter([
         path: 'login',
         element: <Authentication />,
       },
-      
       {
         path: 'post/:postId',
         element: <Post />,
       },
       {
-        path: 'profile',
-        element: <Privateroute element={<Profile />} />,
-      },
-      {
-        path: 'create-post',
-        element: <Privateroute element={<CreatePost />} />,
-      },
-      {
-        path: 'edit-post/:postId',
-        element: <Privateroute element={<EditPost />} />,
+        path: '*',
+        element: <Privateroute />,
+        children: [
+          {
+            path: 'profile',
+            element: <Profile />,
+          },
+          {
+            path: 'create-post',
+            element: <CreatePost />,
+          },
+          {
+            path: 'edit-post/:postId',
+            element: <EditPost />,
+          },
+        ],
       },
     ],
   },

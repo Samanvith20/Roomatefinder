@@ -1,8 +1,8 @@
 import React from 'react'
 import { useAuthStatus } from '../hooks/useAuthstatus'
 import Spinner from './Spinner';
-import { Navigate, } from 'react-router';
-import Profile from '../pages/Profile';
+import { Navigate, Outlet, } from 'react-router';
+
 
 
 const Privateroute = () => {
@@ -11,7 +11,7 @@ const Privateroute = () => {
     if (checkingStatus) {
         return <Spinner />;
     }
-    return loggedIn ? <Profile /> : <Navigate to='/login' />
+    return loggedIn ? <Outlet/> : <Navigate to='/login' />
   
 }
 
