@@ -144,7 +144,7 @@ const Profile = () => {
             </>
         )}
         {loading && <Spinner />}
-    </div>
+    </div> 
 </div>
   );
 };

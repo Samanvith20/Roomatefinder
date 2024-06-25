@@ -10,8 +10,6 @@ import { Navigation, Pagination, EffectFade, Autoplay } from 'swiper/modules';
 import { FaShare, FaMapMarkerAlt } from 'react-icons/fa';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
-
-
 export default function Post() {
     const params = useParams();
     const navigate = useNavigate();

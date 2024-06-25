@@ -110,6 +110,10 @@ const Authentication = () => {
                                     {signIn ? "Sign Up" : "Sign In"}
                                 </span>
                             </p>
+                            {signIn&&<Link to='/forgotpassword' className='font-semibold hover:text-secondary hover:underline '>
+                                    Forgot Password?
+                                </Link>
+}
                         </div>
                         <button className='w-full justify-center px-4 py-3 text-xl text-light border-primary rounded-xl transition ease-in-out bg-secondary hover:bg-accent hover:text-primary'
                             type='submit'>

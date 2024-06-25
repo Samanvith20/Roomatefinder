@@ -11,6 +11,7 @@ import CreatePost from './pages/CreatePost';
 import EditPost from './pages/Editpost';
 import Home from './pages/Home';
 import Post from './pages/Post';
+import ForgotPassword from './pages/ForgotPassword';
 
 const AppLayout = () => (
   <>
@@ -35,6 +36,10 @@ const appRouter = createBrowserRouter([
       {
         path: 'post/:postId',
         element: <Post />,
+      },
+      {
+        path:'forgotpassword',
+        element:<ForgotPassword/>
       },
       {
         path: '*',
