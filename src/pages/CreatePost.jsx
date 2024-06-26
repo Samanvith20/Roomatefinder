@@ -73,26 +73,39 @@ const CreatePost = () => {
         let geolocation = {};
         let location;
     
-        const apiKey = process.env.REACT_APP_GEOCODE_API; // Replace with your actual HERE API key
-    
+        // const apiKey = process.env.REACT_APP_GEOCODE_API; // Replace with your actual HERE API key
+        // console.log(apiKey);
         if (geoLocationEnabled) {
             try {
-                const res = await fetch(`https://geocode.search.hereapi.com/v1/geocode?q=${encodeURIComponent(address)}&apiKey=${apiKey}`);
+                const res = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=fed63bba9d9b46feaf040ecc0adffeba`);
                 if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
+                  throw new Error(`HTTP error! status: ${res.status}`);
                 }
+                console.log(address);
                 const data = await res.json();
                 console.log(data);
-                if (data.items && data.items.length > 0) {
-                    geolocation.lat = data.items[0].position.lat;
-                    geolocation.lng = data.items[0].position.lng;
-                    location = true;
+                if (data.results && data.results.length > 0) {
+                  geolocation.lat = data.results[0].geometry.lat;
+                  geolocation.lng = data.results[0].geometry.lng;
+                  location = true;
                 } else {
-                    location = false;
+                  location = false;
                 }
-            } catch (error) {
+              } catch (error) {
                 console.error('Error fetching geocode data:', error);
                 location = false;
+              }
+        
+              // If the address is invalid, show an error message and exit
+              if (!location) {
+                setLoading(false); // Reset the loading state
+                toast.error("Invalid Address"); // Show an error message
+                return;
+              }
+            } else {
+              // If geolocation is not enabled, use the provided lat and lng
+              geolocation.lat = lat;
+              geolocation.lng = lng;
             }
     
             // If the address is invalid, show an error message and exit
@@ -101,7 +114,7 @@ const CreatePost = () => {
                 toast.error("Invalid Address"); // Show an error message
                 return;
             }
-        } else {
+         else {
             // If geolocation is not enabled, use the provided lat and lng
             geolocation.lat = lat;
             geolocation.lng = lng;

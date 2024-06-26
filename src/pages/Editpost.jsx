@@ -104,28 +104,39 @@ function EditPost() {
         let geolocation = {};
         let location;
         if (geoLocationEnabled) {
-
-            const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API}`);
-            const data = await res.json();
-
-            geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
-
-            geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
-
-
-            location = data.status === "ZERO_RESULTS" ? false : true;
-
-            if (!location) {
-                setLoading(false);
-                toast.error("Invalid Address");
+            try {
+            //     const apiKey = process.env.GEOCODE_API;
+            //   console.log(apiKey);
+                const res = await fetch(`https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(address)}&key=fed63bba9d9b46feaf040ecc0adffeba`);
+                if (!res.ok) {
+                  throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                console.log(address);
+                const data = await res.json();
+                console.log(data);
+                if (data.results && data.results.length > 0) {
+                  geolocation.lat = data.results[0].geometry.lat;
+                  geolocation.lng = data.results[0].geometry.lng;
+                  location = true;
+                } else {
+                  location = false;
+                }
+              } catch (error) {
+                console.error('Error fetching geocode data:', error);
+                location = false;
+              }
+        
+              // If the address is invalid, show an error message and exit
+              if (!location) {
+                setLoading(false); // Reset the loading state
+                toast.error("Invalid Address"); // Show an error message
                 return;
+              }
+            } else {
+              // If geolocation is not enabled, use the provided lat and lng
+              geolocation.lat = lat;
+              geolocation.lng = lng;
             }
-        }
-        else {
-            geolocation.lat = lat;
-            geolocation.lng = lng;
-        }
-
         async function storeImage(image) {
 
             return new Promise((resolve, reject) => {
