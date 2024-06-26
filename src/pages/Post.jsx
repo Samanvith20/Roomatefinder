@@ -10,10 +10,15 @@ import { Navigation, Pagination, EffectFade, Autoplay } from 'swiper/modules';
 import { FaShare, FaMapMarkerAlt } from 'react-icons/fa';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
+import 'leaflet/dist/leaflet.css';
+
+
+
 export default function Post() {
     const params = useParams();
     const navigate = useNavigate();
     const [post, setPost] = useState(null);
+    console.log(post);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -21,7 +26,9 @@ export default function Post() {
             const docRef = doc(db, 'posts', params.postId);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
-                setPost(docSnap.data());
+                const postData = docSnap.data();
+                console.log('Geolocation data:', postData.geolocation); // Logging geolocation data
+                setPost(postData);
                 setLoading(false);
             } else {
                 navigate('/');
@@ -112,22 +119,24 @@ export default function Post() {
                     </p>
                 </div>
                 <div className="w-full z-10 overflow-x-hidden mt-2">
-                    <MapContainer
-                        center={[post.geolocation.lat, post.geolocation.lng]}
-                        zoom={13}
-                        scrollWheelZoom={false}
-                        style={{ height: '100%', width: '100%' }}
-                    >
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Marker position={[post.geolocation.lat, post.geolocation.lng]}>
-                            <Popup>
-                                A pretty CSS3 popup. <br /> Easily customizable.
-                            </Popup>
-                        </Marker>
-                    </MapContainer>
+                    {post.geolocation && (
+                        <MapContainer
+                            center={[post.geolocation.lat, post.geolocation.lng]}
+                            zoom={13}
+                            scrollWheelZoom={false}
+                            style={{ height: '400px', width: '100%' }}
+                        >
+                            <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <Marker position={[post.geolocation.lat, post.geolocation.lng]}>
+                                <Popup>
+                                    A pretty CSS3 popup. <br /> Easily customizable.
+                                </Popup>
+                            </Marker>
+                        </MapContainer>
+                    )}
                 </div>
             </div>
         </main>

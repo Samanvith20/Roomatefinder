@@ -29,7 +29,7 @@ const CreatePost = () => {
         images: [],
     });
     const navigate=useNavigate()
-
+     
     const { name, contact, vacancy, washroom, ac, wifi, furnished, gender, bhk, rent, address, description, lat, lng, images } = formData;
 
     const onChange = (e) => {
@@ -59,36 +59,46 @@ const CreatePost = () => {
     };
 
     async function onSubmit(e) {
-        e.preventDefault();  // Prevent the default form submission behavior
-        toast.info("Please wait while we create your post");  // Inform the user that the post is being created
-        setLoading(true);  // Set the loading state to true
+        e.preventDefault(); // Prevent the default form submission behavior
+        toast.info("Please wait while we create your post"); // Inform the user that the post is being created
+        setLoading(true); // Set the loading state to true
     
         // Check if the number of images exceeds the limit
         if (images.length > 6) {
-            setLoading(false);  // Reset the loading state
-            toast.error("Maximum 6 images allowed");  // Show an error message
+            setLoading(false); // Reset the loading state
+            toast.error("Maximum 6 images allowed"); // Show an error message
             return;
         }
     
-        let geolocation = {};  
-        let location;  
+        let geolocation = {};
+        let location;
+    
+        const apiKey = process.env.REACT_APP_GEOCODE_API; // Replace with your actual HERE API key
+    
         if (geoLocationEnabled) {
-            // Fetch geolocation data using the Google Maps API
-            const res = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_GEOCODE_API}`);
-            const data = await res.json();
-            console.log(data);  // Log the geolocation data
-    
-            // Extract latitude and longitude from the API response
-            geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
-            geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
-    
-            // Determine if the location is valid
-            location = data.status === "ZERO_RESULTS" ? false : true;
+            try {
+                const res = await fetch(`https://geocode.search.hereapi.com/v1/geocode?q=${encodeURIComponent(address)}&apiKey=${apiKey}`);
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                const data = await res.json();
+                console.log(data);
+                if (data.items && data.items.length > 0) {
+                    geolocation.lat = data.items[0].position.lat;
+                    geolocation.lng = data.items[0].position.lng;
+                    location = true;
+                } else {
+                    location = false;
+                }
+            } catch (error) {
+                console.error('Error fetching geocode data:', error);
+                location = false;
+            }
     
             // If the address is invalid, show an error message and exit
             if (!location) {
-                setLoading(false);  // Reset the loading state
-                toast.error("Invalid Address");  // Show an error message
+                setLoading(false); // Reset the loading state
+                toast.error("Invalid Address"); // Show an error message
                 return;
             }
         } else {
@@ -100,10 +110,10 @@ const CreatePost = () => {
         // Function to upload a single image and return the download URL
         async function storeImage(image) {
             return new Promise((resolve, reject) => {
-                const storage = getStorage();  // Get Firebase storage instance
-                const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`;  // Create a unique filename
-                const storageRef = ref(storage, filename);  // Create a reference to the storage location
-                const uploadTask = uploadBytesResumable(storageRef, image);  // Start the upload task
+                const storage = getStorage(); // Get Firebase storage instance
+                const filename = `${auth.currentUser.uid}-${image.name}-${uuidv4()}`; // Create a unique filename
+                const storageRef = ref(storage, filename); // Create a reference to the storage location
+                const uploadTask = uploadBytesResumable(storageRef, image); // Start the upload task
     
                 uploadTask.on('state_changed',
                     (snapshot) => {
@@ -124,12 +134,12 @@ const CreatePost = () => {
             });
         }
     
-        // Upload all images and get store the  download URLs
+        // Upload all images and get store the download URLs
         const imgURLs = await Promise.all(
-            [...images].map((image) => storeImage(image)))
-            .catch((err) => {
-            setLoading(false); 
-            toast.error("Error uploading images");  
+            [...images].map((image) => storeImage(image))
+        ).catch((err) => {
+            setLoading(false);
+            toast.error("Error uploading images");
             return;
         });
     
@@ -138,8 +148,8 @@ const CreatePost = () => {
             ...formData,
             imgURLs,
             geolocation,
-            timestamp: serverTimestamp(),  
-            userRef: auth.currentUser.uid  
+            timestamp: serverTimestamp(), // Add the current timestamp
+            userRef: auth.currentUser.uid // Add the current user's reference
         };
     
         // Remove unnecessary fields from the form data
@@ -150,10 +160,12 @@ const CreatePost = () => {
         // Save the post to Firestore
         const docRef = await addDoc(collection(db, "posts"), formDataCopy);
     
-        setLoading(false);  
-        toast.success("Post created successfully");  // Show a success message
-        navigate(`/post/${docRef.id}`);  // Navigate to the new post's page
+        setLoading(false);
+        toast.success("Post created successfully"); // Show a success message
+        navigate(`/post/${docRef.id}`); // Navigate to the new post's page
     }
+    
+    
     
     if (loading) {
         return <Spinner />;  // Show a spinner if loading
