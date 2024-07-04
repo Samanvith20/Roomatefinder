@@ -10,24 +10,25 @@ Experience RoommateFinder in action: https://roomatefinder-2xsvlmuq8-samanvith20
 
 
 ## Built With
-React - A JavaScript library for building user interfaces
-Firebase - Backend services
-Tailwind CSS - Utility-first CSS framework
+ # 1. React - A JavaScript library for building user interfaces
+ # 2.Firebase - Backend services
+ # 3.Tailwind CSS - Utility-first CSS framework
 
-# Prerequisites
+## Prerequisites
 To set up the development environment for this project, you'll need the following:
 
-Node.js and npm (Node Package Manager)
- Git (for version control)
- Firebase CLI (for Firebase services)
-Tailwind CSS (for styling)
+  # 1 Node.js and npm (Node Package Manager)
+ # 2.Git (for version control)
+  # 3.Firebase CLI (for Firebase services)
+ # 4.Tailwind CSS (for styling)
 
 ## Getting Started
    Set Up the Project
-   1.Clone the repository:git clone https://roomatefinder-2xsvlmuq8-samanvith20s-projects.vercel.app/
-   2.Navigate to the project directory:cd RoommateFinder
-   3.install project dependencies:npm install
-   4 Start the Development Server:npm start
+   # 1.Clone the repository:git clone https://roomatefinder-2xsvlmuq8-samanvith20s-projects.vercel.app/
+   # 2.Navigate to the project directory:cd RoommateFinder
+   # 3.install project dependencies:npm install
+   # 4 Start the Development Server:npm start
+   
    ## Contributing
 
 We welcome contributions from the community! Feel free to fork this repository, make changes, and create pull requests. We'll review contributions promptly and provide feedback.
