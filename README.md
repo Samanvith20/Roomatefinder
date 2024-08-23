@@ -6,20 +6,20 @@ RoommateFinder aims to simplify the process of finding a roommate by providing a
 
  ## Live Demo
 
-Experience RoommateFinder in action: https://roomatefinder-2xsvlmuq8-samanvith20s-projects.vercel.app/
+Experience RoommateFinder in action: https://roomatefinder.vercel.app/
 
 
 ## Built With
- # 1. React - A JavaScript library for building user interfaces
- # 2.Firebase - Backend services
- # 3.Tailwind CSS - Utility-first CSS framework
+   # 1. React - A JavaScript library for building user interfaces
+   # 2.Firebase - Backend services
+ #  3.Tailwind CSS - Utility-first CSS framework
 
 ## Prerequisites
 To set up the development environment for this project, you'll need the following:
 
-  # 1 Node.js and npm (Node Package Manager)
- # 2.Git (for version control)
-  # 3.Firebase CLI (for Firebase services)
+   # 1 Node.js and npm (Node Package Manager)
+   # 2.Git (for version control)
+    # 3.Firebase CLI (for Firebase services)
  # 4.Tailwind CSS (for styling)
 
 ## Getting Started
